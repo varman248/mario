@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+
+<style>
+
+body {
+  background-color: blue;
+  text-align: center;
+}
+
+canvas {
+	display: block;
+  background-color: white;
+  margin: auto;
+}
+
+#picker{
+	display: block;
+	margin: auto;
+}
+
+#palette {
+  display: inline-block;
+  background-color: rgba(255,255,255,.5);
+  padding: 5px;
+}
+
+#palette > * {
+  display:inline-block; 
+  border-radius: 50%; 
+  width:20px; 
+  height:20px; 
+  margin: 5px;
+}
+
+
+
+</style>
+
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <title>GRID</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  </head>
+
+  <body>
+    <canvas width=500 height=500></canvas>
+    <input id="picker" type="color" value="#ff0000">
+    <div id="palette"></div>
+  </body>
+
+</html>
+
+<script>
+
+// CUSTOM FUNCTION
+
+function pixelDraw(ctx, x, y, color, s) {
+  ctx.fillStyle = color;
+  ctx.fillRect(x, y, s, s);
+}
+
+function drawGrid(canvas, nx, ny, color, s) {
+  let ctx = canvas.getContext('2d');
+  gw = canvas.width/nx;
+  gh = canvas.height/ny;
+  // DRAW
+  for (let y=0; y<canvas.height; y++){
+    for (let x=gw; x<canvas.width; x += gw){ pixelDraw(ctx, x, y, color, s);}
+  }
+
+  for (let x=0; x<canvas.width; x++){
+    for (let y=gh; y<canvas.height; y += gh){ pixelDraw(ctx, x, y, color, s);}
+  }
+}
+
+function array_remove_duplicates(list){
+  var uniqueList = [];
+  $.each(list, function(i, el){
+      if($.inArray(el, uniqueList) === -1) uniqueList.push(el);
+  });
+  return uniqueList;
+}
+
+function rgb2hex(rgb) {
+ rgb = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+ return "#" + hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3]);
+}
+
+function hex(x) {
+  var hexDigits = new Array
+        ("0","1","2","3","4","5","6","7","8","9","a","b","c","d","e","f"); 
+  return isNaN(x) ? "00" : hexDigits[(x - x % 16) / 16] + hexDigits[x % 16];
+ }
+
+function addCase(mx, my, nx, ny, canvas, color){
+  var gw = canvas.width/nx, gh = canvas.height/ny;
+  var gx = Math.floor(mx/gw), gy = Math.floor(my/gh);
+  if (!color){ color="red";}
+  var point = {x:gx, y:gy, c:color};
+  console.log(point);
+  // CHECK IF ALREADY EXIST
+  var found = false;
+  for (var i=0; i<vectors.length; i++){
+    let p = vectors[i];
+    if (p.x==gx && p.y==gy){ found = true; break; }
+  }
+  // ADD OR REMOVE POINT
+  if (!found){ vectors.push(point); }
+  else{ vectors.splice(i, 1); }
+  // APPLY CASE
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  drawGrid(canvas, nx, ny, 'red', 1);
+  var colors = [];
+  for (let g of vectors){
+    colors.push(g.c);
+    ctx.fillStyle = g.c;
+    ctx.fillRect(g.x*gw+s, g.y*gh+s, gw-s, gh-s);
+  }
+  // ADD COLORS
+  var colors = array_remove_duplicates(colors);
+  $('#palette').empty();
+  for (var c of colors) {
+    $('#palette').append($('<div>').attr('style', 'background-color:'+c));
+  }
+  // ADD EVENT COLOR ON PALETTE
+  $('#palette > *').on('click', (e)=>{
+	color = $(e.currentTarget).css('backgroundColor');
+    $('#picker').val(rgb2hex(color));
+  });
+  return color;
+}
+
+
+
+
+
+var canvas = $('canvas')[0];
+var ctx = canvas.getContext('2d');
+var color;
+
+
+
+// GET COLOR ON PICKER
+$('#picker').on('change', ()=>{
+  color = $('#picker').val();
+});
+
+// GET COLOR ON PALETTE
+
+
+// DRAW GRID
+
+var nx = 14, ny = 14, s = 2;
+var vectors = [];
+
+drawGrid(canvas, nx, ny, 'red', 1);
+
+
+$('canvas').on("click", (e)=>{
+  color = addCase(e.offsetX, e.offsetY, nx, ny, canvas, color);
+});
+
+</script>
