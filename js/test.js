@@ -1,5 +1,18 @@
 /* --------------------------------------------------------- */
 
+function hexToRgb(hex){
+    var c;
+    if(/^#([A-Fa-f0-9]{3}){1,2}$/.test(hex)){
+        c= hex.substring(1).split('');
+        if(c.length== 3){
+            c= [c[0], c[0], c[1], c[1], c[2], c[2]];
+        }
+        c= '0x'+c.join('');
+        return {r:(c>>16)&255, g:(c>>8)&255, b:c&255};
+    }
+    throw new Error('Bad Hex');
+}
+
 function rdm(n){
 	return Math.floor(Math.random()*n);
 }
@@ -60,6 +73,15 @@ var points = [{"x":4,"y":17,"c":"#a52a2a"},{"x":5,"y":16,"c":"#a52a2a"},{"x":7,"
 //ctx.fillRect(0, 0, canvas.width, canvas.height);
 
 var pixels = new Pixels(points);
-pixels.scale(3);
-pixels.centerPosition(canvas.width/2, canvas.height/2);
-pixels.draw(canvas);
+pixels.scale(15);
+//pixels.centerPosition(canvas.width/2, canvas.height/2);
+pixels.polygons.scale(15);
+
+let t = new Time();
+pixels.polygons.draw(canvas);
+console.log(t.count()+' ms');
+
+pixels.drawImage(ctx);
+
+
+

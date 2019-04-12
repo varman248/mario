@@ -14,6 +14,17 @@ class Vectors {
 		this.points = list;
 	}
 	
+	cornerToZero(){
+		let b = this.boundingBox();
+		// CHOOSE TOP LEFT CONER
+		let r = {x:b.minX, y:b.minY};
+		// APPLY THE DIFFERENCE
+		for (let p of this.points){
+			p.x -= r.x; 
+			p.y -= r.y; 
+		}
+	}
+	
 	centerPosition(x, y){
 		let c = this.boundingBox().center;
 		for (let p of this.points){

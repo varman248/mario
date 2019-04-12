@@ -126,6 +126,47 @@ class Pixels {
 		}
 		return polygons;
 	}
+	
+	hexToRgb(hex){
+	    var c;
+	    if(/^#([A-Fa-f0-9]{3}){1,2}$/.test(hex)){
+	        c= hex.substring(1).split('');
+	        if(c.length== 3){
+	            c= [c[0], c[0], c[1], c[1], c[2], c[2]];
+	        }
+	        c= '0x'+c.join('');
+	        return {r:(c>>16)&255, g:(c>>8)&255, b:c&255};
+	    }
+	    throw new Error('Bad Hex');
+	}
+
+	toImage(ctx){
+		this.vectors.cornerToZero();
+		let b = this.vectors.boundingBox();
+		let img = ctx.createImageData(b.width*this.sca, b.height*this.sca);
+		for (let p of this.vectors.points){
+			let idx = 4 * (p.x+ p.y * img.width);
+			let c = hexToRgb(p.c);
+			for (let y=0; y<this.sca; y++){
+				for (let x=0; x<this.sca; x++){
+					let i = 4 * ((p.x+x) + (p.y+y) * img.width);
+					img.data[i] = c.r;
+					img.data[i+1] = c.g;
+					img.data[i+2] = c.b;
+					img.data[i+3] = 255;
+				}
+			}
+		}
+		return img;	
+	}
+
+	drawImage(ctx){
+		let img = this.toImage(ctx);
+		let t = new Time();
+		ctx.putImageData(img, 100, 100);
+		console.log(t.count()+' ms');
+	}
+
 
 }
 
