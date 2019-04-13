@@ -22,7 +22,7 @@ class Game {
   		this.enemies.force.checkBounds(this.map.width, this.map.height);
   		this.enemies.updatePosition();
   		this.enemies.follow(this.mario.force);
-  		// CAMERA
+  		// SIMULATE CAMERA FOLLOWING MARIO
 		if(this.mario.force.p.x<this.canvas.width/2){
 			this.mario.updatePosition();
 		}

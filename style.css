@@ -1,0 +1,134 @@
+@import url('https://fonts.googleapis.com/css?family=Oswald|Ubuntu');
+
+* {
+	/*border: 1px solid black;*/
+	transition: all .5s;
+}
+
+body {
+	background-color: grey;
+	margin:0;
+	font-family: Arial, sans-serif;
+}
+
+header {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	padding: 25px;
+	background-color: red;
+	box-shadow: 0 0 10px rgba(0,0,0,.5);
+}
+
+header h1 {
+	font-family: 'Oswald', sans-serif;
+	text-align: center;
+	text-transform: uppercase;
+	color: lime;
+	font-size: 3rem;
+	text-shadow: 0 0 10px rgba(0,0,0,1);
+}
+
+main h2 {
+	font-family: 'Ubuntu', sans-serif;
+	text-transform: uppercase;
+}
+
+nav {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-end;
+}
+
+nav a {
+	padding: 5px;
+	margin: 5px;
+	font-family: 'Ubuntu', sans-serif;
+	text-decoration: none;
+	text-transform: uppercase;
+	font-weight: bold;
+	font-size: 1.2em;
+	background-color: rgba(0,0,0,.2);
+	color: blue;
+	border: 5px solid rgba(0,0,0,.1);
+}
+
+nav a:hover {
+	transform: scale(1.03);
+	box-shadow: 0 0 10px rgba(0,0,0,1);
+	border: 5px solid lime;
+}
+
+main {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	padding: 25px;
+}
+
+canvas {
+	background-color: #5c94fc;
+	box-shadow: 0 0 10px rgba(0,0,0,1);
+	border: 5px solid grey;
+}
+
+
+footer {
+	background-color: blue;
+	padding: 25px;
+	box-shadow: 0 0 10px rgba(0,0,0,.5);
+}
+
+/*--------------------- ARDOISE MAGIQUE---------------------*/
+#ardoise {
+  background-color: blue;
+  text-align: center;
+  width: 100%;
+  padding: 50px;
+  box-shadow: 0 0 10px rgba(0,0,0,1);
+}
+
+#ardoise > * {
+  margin: 10px auto;
+  padding: 10px;
+  box-shadow: 0 0 10px 10px rgba(0,0,0,.1);
+  border-radius: 5px;
+}
+
+#ardoise canvas {
+	display: block;
+  background-color: #d6d6d6;
+}
+
+#ardoise button {
+	border: none;
+	background-color: lime;
+}
+
+#ardoise input[type=color], .dot{
+  border-radius: 50%; 
+  width:20px; 
+  height:20px; 
+}
+
+#palette, #ardoise textarea {
+	display: block;
+  background-color: rgba(255,255,255,.7);
+  width: 90%;
+  height: 60px;
+}
+
+#palette {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+}
+
+#palette div {
+	margin: 2px;
+}
+
+#palette div > *{
+	margin: 2px auto;
+}

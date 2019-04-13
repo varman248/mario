@@ -3,8 +3,6 @@ class Personnage {
 	
 	constructor(){
 		this.force = new Physics(100, 100);
-		this.frames = {'rest':null};
-		this.frameCurrent = this.frames['rest'];
 	}
 
 	rayon(){
@@ -42,6 +40,7 @@ class Personnage {
 	}
 	
 	draw(canvas){
+		this.force.exertForce({x:0, y:100});
 		this.rayon();
 		this.frameCurrent.polygons.draw(canvas);
 	}
@@ -68,7 +67,7 @@ class Enemies extends Personnage {
 
 	follow(f){
 		let s = 1;
-		if (this.force.p.x > f.p.x+100){
+		if (this.force.p.x > f.p.x){
 			s = -1;
 		}
 

@@ -28,9 +28,6 @@ let time = new Time();
 function frame(){
   // APPLY ALL FORCES
   let ground = game.mario.force.ground;
-  // APPLY GRAVITY
-  game.mario.force.exertForce({x:0, y:100});
-  game.enemies.force.exertForce({x:0, y:100});
   // JUMP
   if(jump && ground){ game.mario.force.exertForce({x:0, y:-1500}); }
   // WALK TO RIGTH
